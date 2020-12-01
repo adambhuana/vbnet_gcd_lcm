@@ -19,18 +19,35 @@ Public Class Form19
         Dim perkalian, pembagian As Integer
         Dim simpul As String
         simpul = ""
-        a = CInt(TextBox1.Text)
-        b = CInt(TextBox2.Text)
-        FPB_KPK.fpb(a, b)
-        FPB_KPK.kpk(a, b)
-        perkalian = a * b
-        simpul = simpul + "a*b = " + a.ToString + "  X" + b.ToString + " = " + perkalian.ToString + vbNewLine
-        simpul = simpul + "FPB(" + a.ToString + "," + b.ToString + "):" + FPB_KPK.maksi.ToString + vbNewLine
-        pembagian = perkalian / FPB_KPK.maksi
-        simpul = simpul + "(a*b)/FPB(a,b)=" + pembagian.ToString
-        Label12.Text = simpul
+        If TextBox1.Text <> "" And TextBox2.Text <> "" Then
+            a = CInt(TextBox1.Text)
+            b = CInt(TextBox2.Text)
+            If a <> 0 And b <> 0 Then
+                FPB_KPK.fpb(a, b)
+                FPB_KPK.kpk(a, b)
+                perkalian = a * b
+                simpul = simpul + "a*b = " + a.ToString + " X " + b.ToString + " = " + perkalian.ToString + vbNewLine
+                simpul = simpul + "FPB(" + a.ToString + "," + b.ToString + ")=" + FPB_KPK.maksi.ToString + vbNewLine
+                pembagian = perkalian / FPB_KPK.maksi
+                simpul = simpul + "KPK(LCM(a,b))=(a*b)/FPB(a,b)=" + pembagian.ToString
+                Label12.Text = simpul
 
-        d = ""
+                d = ""
+            Else
+                MsgBox("Maaf, input tidak boleh kosong atau bernilai NOL")
+                TextBox1.Text = ""
+                TextBox2.Text = ""
+                TextBox1.Focus()
+
+            End If
+
+        Else
+            MsgBox("Maaf, input tidak boleh kosong atau bernilai NOL")
+            TextBox1.Text = ""
+            TextBox2.Text = ""
+            TextBox1.Focus()
+        End If
+
     End Sub
 End Class
 Module FPB_KPK
