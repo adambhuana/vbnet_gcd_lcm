@@ -1,0 +1,291 @@
+Public Class Form19
+    Public a, b As Integer
+    Private Sub Form19_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.WindowState = FormWindowState.Maximized
+        Me.AutoScroll = True
+        d = ""
+        Label3.Text = ""
+    End Sub
+
+    Private Sub Label6_Click(sender As Object, e As EventArgs) Handles Label6.Click
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim perkalian, pembagian As Integer
+        Dim simpul As String
+        simpul = ""
+        a = CInt(TextBox1.Text)
+        b = CInt(TextBox2.Text)
+        FPB_KPK.fpb(a, b)
+        FPB_KPK.kpk(a, b)
+        perkalian = a * b
+        simpul = simpul + "a*b = " + a.ToString + "  X" + b.ToString + " = " + perkalian.ToString + vbNewLine
+        simpul = simpul + "FPB(" + a.ToString + "," + b.ToString + "):" + FPB_KPK.maksi.ToString + vbNewLine
+        pembagian = perkalian / FPB_KPK.maksi
+        simpul = simpul + "(a*b)/FPB(a,b)=" + pembagian.ToString
+        Label12.Text = simpul
+
+        d = ""
+    End Sub
+End Class
+Module FPB_KPK
+    Public d As String
+    Public e As String
+    Public hasilkpk As Integer
+    Public maksi As Integer
+    Sub fpb(a As Integer, b As Integer)
+        Dim a2, b2, c2 As Integer
+        Dim a1 As Integer() = New Integer(a) {}
+        Dim b1 As Integer() = New Integer(b) {}
+        a2 = 1
+        b2 = 0
+        c2 = 0
+        d = d + "Faktor dari Bilangan: " + a.ToString + " = "
+        While a2 <= a
+            b2 = a Mod a2
+            If b2 = 0 Then
+                a1(c2) = a2
+                d = d + a1(c2).ToString + ", "
+                c2 = c2 + 1
+            End If
+            a2 = a2 + 1
+        End While
+        d = d + vbNewLine
+        a2 = 1
+        c2 = 0
+        d = d + "Faktor dari Bilangan: " + b.ToString + " = "
+        While a2 <= b
+            b2 = b Mod a2
+            If b2 = 0 Then
+                b1(c2) = a2
+                d = d + b1(c2).ToString + ", "
+                c2 = c2 + 1
+            End If
+            a2 = a2 + 1
+        End While
+        d = d + vbNewLine
+        BandingkanArray(a1, b1)
+        My.Forms.Form19.Label3.Text = d
+    End Sub
+    Sub BandingkanArray(array1() As Integer, array2() As Integer)
+        Dim l1, l2, cumm, cumm1, cumm2 As Integer
+        l1 = array1.Length - 1
+        l2 = array2.Length - 1
+        Dim c1(10) As Integer
+        cumm = 0
+        cumm1 = 0
+        While cumm < l1
+            If array1(cumm) <> 0 Then
+                cumm1 = 0
+                While cumm1 < l2
+                    If array2(cumm1) <> 0 Then
+                        If array1(cumm) = array2(cumm1) Then
+                            c1(cumm2) = array1(cumm)
+                            cumm2 = cumm2 + 1
+                        End If
+                        'd = d + array2(cumm).ToString + ","
+                    End If
+                    cumm1 = cumm1 + 1
+                End While
+                'd = d + array1(cumm).ToString + ","
+            End If
+            cumm = cumm + 1
+        End While
+        cumm = 0
+        l2 = c1.Length
+        d = d + "Faktor Persekutuannya: "
+        While cumm < l2
+            If c1(cumm) <> 0 Then
+                d = d + c1(cumm).ToString + ", "
+            End If
+            cumm = cumm + 1
+        End While
+        d = d + vbNewLine
+        NilaiMaksimum(c1)
+    End Sub
+    Sub NilaiMaksimum(array3() As Integer)
+        Dim cumm, l2, maks As Integer
+        cumm = 0
+        maks = 0
+        l2 = array3.Length - 1
+        d = d + "FPB nya: "
+        While cumm < l2
+            If array3(cumm) <> 0 Then
+                If cumm = 0 Then
+                    maks = array3(cumm)
+                Else
+                    If array3(cumm) > maks Then
+                        maks = array3(cumm)
+                    End If
+                End If
+            End If
+            cumm = cumm + 1
+        End While
+        d = d + maks.ToString
+        d = d + vbNewLine
+        maksi = maks
+        My.Forms.Form19.Label7.Text = maks.ToString
+    End Sub
+    Sub kpk(a As Integer, b As Integer)
+        e = ""
+        hitungkpk(a, b)
+        My.Forms.Form19.Label5.Text = e
+    End Sub
+    Sub hitungkpk(a, b)
+        Dim h1, moda, modb, count1, count2, cumm, cumm1, b1, prima, nmaks As Integer
+        Dim ha2, hb2 As Double
+        Dim cumm2 As Integer
+        Dim prim(20), cummprim, bilprim As Integer
+        Dim a2(30), b2(30), a3, b3 As Integer
+        'catatan, apabila angka yang ingin dicari terlalu besar, bisa edit jumlah array pada variabel2 array nya
+        hasilkpk = 1
+        count1 = 0
+        count2 = 0
+        cumm2 = 0
+        a3 = 0
+        b3 = 0
+        moda = 0
+        modb = 0
+        ha2 = 0
+        hb2 = 0
+        'jumlah bilangan prima nya dibatasi hingga 10, bila angka yang ingin dicari tidak dapat atau besar, tambahkan faktor prima nya
+        h1 = 10
+        b1 = 0
+        prima = 0
+        cumm = 2
+        cumm1 = 1
+        cummprim = 0
+        e = e + "Himpunan Bilangan Prima: "
+        While cumm < h1
+            cumm1 = 1
+            prima = 0
+            While cumm1 <= cumm
+                b1 = cumm Mod cumm1
+                If b1 = 0 Then
+                    prima = prima + 1
+                End If
+                cumm1 = cumm1 + 1
+            End While
+            If prima = 2 Then
+                prim(cummprim) = cumm
+                e = e + prim(cummprim).ToString + ","
+                cummprim = cummprim + 1
+            End If
+            cumm = cumm + 1
+        End While
+        e = e + vbNewLine
+        e = e + "Nilai Inputan Pertama:" + a.ToString
+        e = e + vbNewLine
+        cumm = 0
+        cumm1 = 0
+        ha2 = a
+        hb2 = b
+        While cumm < prim.Length
+            bilprim = prim(cumm)
+            If bilprim <> 0 Then
+                'e = e + bilprim.ToString + vbNewLine
+                Do While ha2 <> 1
+                    moda = ha2 Mod bilprim
+                    If moda = 0 Then
+                        ha2 = ha2 / bilprim
+                        'e = e + "  ---" + ha2.ToString + vbNewLine
+                        a2(cumm1) = prim(cumm)
+                        e = e + a2(cumm1).ToString + ","
+                        cumm1 = cumm1 + 1
+                    Else
+                        'e = e + ha2.ToString + ","
+                        Exit Do
+                    End If
+                Loop
+            End If
+            cumm = cumm + 1
+        End While
+        e = e + vbNewLine
+        e = e + "Nilai Inputan Kedua:" + b.ToString
+        e = e + vbNewLine
+        cumm = 0
+        cumm1 = 0
+        While cumm < prim.Length
+            bilprim = prim(cumm)
+            If bilprim <> 0 Then
+                'e = e + bilprim.ToString + vbNewLine
+                Do While hb2 <> 1
+                    modb = hb2 Mod bilprim
+                    If modb = 0 Then
+                        hb2 = hb2 / bilprim
+                        'e = e + "  ---" + ha2.ToString + vbNewLine
+                        b2(cumm1) = prim(cumm)
+                        e = e + b2(cumm1).ToString + ","
+                        cumm1 = cumm1 + 1
+                    Else
+                        'e = e + ha2.ToString + ","
+                        Exit Do
+                    End If
+                Loop
+            End If
+            cumm = cumm + 1
+        End While
+        e = e + vbNewLine
+        e = e + "Rumus KPK dari Faktorial Prima adalah:"
+        e = e + vbNewLine
+        e = e + "1. Bila ada dua bilangan prima yang sama, ambil satu bilangan dengan pangkat besar tersebut"
+        e = e + vbNewLine
+        e = e + "2. Bila ada dua bilangan prima  yang sama dan dengan pangkat yang sama, ambil hanya satu bilangan berpangkat tersebut"
+        e = e + vbNewLine
+        e = e + "3. Bila hanya ada 1 bilangan prima diantara keduanya dan bilangan tersebut paling besar diantara bilangan prima yang lain, maka ambil bilangan prima terbesar tersebut "
+        e = e + vbNewLine
+        e = e + "4. Nilai KPK dihitung dari perkalian bilangan-bilangan prima dari (1,2,3) diatas"
+        e = e + vbNewLine
+        cumm = 0
+        cumm1 = 0
+        e = e + "Penjabarannya adalah sebagai berikut:" + vbNewLine
+        While cumm < prim.Length
+            bilprim = prim(cumm)
+            cumm1 = 0
+            count1 = 0
+            count2 = 0
+            If bilprim <> 0 Then
+                e = e + "Bilangan Prima: " + bilprim.ToString + vbNewLine
+                While cumm1 < a2.Length
+                    If a2(cumm1) <> 0 Then
+                        If bilprim = a2(cumm1) Then
+                            count1 = count1 + 1
+                        End If
+                    End If
+                    cumm1 = cumm1 + 1
+                End While
+                'e = e + count1.ToString + vbNewLine
+                cumm1 = 0
+                While cumm1 < b2.Length
+                    If b2(cumm1) <> 0 Then
+                        If bilprim = b2(cumm1) Then
+                            count2 = count2 + 1
+                        End If
+                    End If
+                    cumm1 = cumm1 + 1
+                End While
+                e = e + "--->Kemunculannya di Himpunan Bilangan Pertama: " + count1.ToString + " kali" + vbNewLine
+                e = e + "--->Kemunculannya di Himpunan Bilangan Kedua: " + count2.ToString + " kali" + vbNewLine
+                nmaks = Math.Max(count1, count2)
+                e = e + "--->Lalu Diambil bilangan yang paling banyak Muncul yaitu: " + nmaks.ToString + " kali" + vbNewLine
+                'e = e + vbNewLine
+                cumm2 = 1
+                While cumm2 <= nmaks
+                    hasilkpk = hasilkpk * bilprim
+                    e = e + "-----------> Hasil Sementara:" + hasilkpk.ToString + vbNewLine
+                    cumm2 = cumm2 + 1
+                End While
+            Else
+                Exit While
+            End If
+            cumm = cumm + 1
+        End While
+        e = e + "Hasil Akhir Perhitungan KPK: " + hasilkpk.ToString + vbNewLine
+        My.Forms.Form19.Label9.Text = hasilkpk.ToString
+    End Sub
+End Module
